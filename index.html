@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>To My Ride or Die</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { 
+      font-family: 'Montserrat', sans-serif; 
+      background: #FFF0F5; 
+      color: #4A4A4A; 
+      overflow-x: hidden; 
+      line-height: 1.6; 
+      transition: background 1s ease; 
+    }
+    
+    body.rainbow-mode { animation: rainbowBG 5s linear infinite; }
+    @keyframes rainbowBG { 
+      0% { background: #ffefef; } 25% { background: #efffee; } 
+      50% { background: #eff9ff; } 75% { background: #f9efff; } 100% { background: #ffefef; } 
+    }
+
+    /* HERO SECTION */
+    .hero {
+      height: 60vh;
+      background: linear-gradient(to bottom, #FFE5E5, #FFF0F5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: #8B4789;
+      margin-bottom: 0.5rem;
+      animation: floating 3s ease-in-out infinite;
+      z-index: 2;
+    }
+    .hero p { font-weight: 300; color: #B08BB5; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; z-index: 2; }
+    @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    /* DECORATIVE HERO HEARTS */
+    .hero-heart { position: absolute; color: #8B4789; user-select: none; z-index: 1; }
+    .heart-1 { top: 15%; left: 10%; font-size: 50px; opacity: 0.15; }
+    .heart-2 { top: 70%; left: 15%; font-size: 80px; opacity: 0.1; }
+    .heart-3 { top: 20%; right: 15%; font-size: 40px; opacity: 0.2; }
+    .heart-4 { top: 60%; right: 10%; font-size: 60px; opacity: 0.12; }
+    .heart-5 { top: 80%; left: 50%; font-size: 30px; opacity: 0.3; }
+
+    /* COUNTDOWNS */
+    .countdowns-container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+    .section-title { font-family: 'Dancing Script', cursive; font-size: 36px; color: #d81b60; text-align: center; margin-bottom: 25px; }
+    .countdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    
+    .countdown-card {
+      background: linear-gradient(135deg, #fff5f7, #fce4ec);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(216, 27, 96, 0.12);
+      text-align: center;
+    }
+    .card-label { font-weight: 600; font-size: 14px; color: #8a1c4a; margin-bottom: 15px; display: block; }
+    .timer-display { display: flex; justify-content: center; gap: 8px; }
+    .timer-box {
+      background: white; width: 50px; height: 55px; border-radius: 10px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .timer-num { font-weight: 700; font-size: 18px; color: #d81b60; }
+    .timer-unit { font-size: 8px; color: #999; text-transform: uppercase; }
+
+    /* CHALLENGES */
+    .challenge-selection { padding: 20px; max-width: 500px; margin: 0 auto; position: relative; z-index: 5; }
+    .challenge-card { 
+      background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; 
+      gap: 15px; cursor: pointer; position: relative; transition: 0.3s; 
+    }
+    .challenge-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(216, 27, 96, 0.15); }
+    .status-badge { position: absolute; top: -5px; right: -5px; background: #fff; border-radius: 50%; width: 25px; height: 25px; display: none; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+    /* ANIMATED ELEMENTS */
+    .floating-heart-anim { position: fixed; bottom: -50px; color: #FFB6C1; cursor: pointer; z-index: 50; animation: floatUp var(--d) linear forwards; user-select: none; }
+    @keyframes floatUp { from { transform: translateY(100vh); } to { transform: translateY(-20vh); } }
+    .trail-heart { position: fixed; pointer-events: none; font-size: 20px; z-index: 9998; animation: fade-out 1s ease-out forwards; }
+    @keyframes fade-out { to { opacity: 0; transform: scale(2); } }
+    .petal { position: fixed; pointer-events: none; z-index: 9999; animation: fall-petal 5s linear forwards; }
+    @keyframes fall-petal { to { transform: translateY(110vh) rotate(360deg); } }
+    .particle { position: fixed; pointer-events: none; width: 6px; height: 6px; border-radius: 50%; z-index: 100; animation: explode 0.6s ease-out forwards; }
+    @keyframes explode { to { transform: translate(var(--x), var(--y)); opacity: 0; } }
+
+    /* SUCCESS OVERLAY */
+    .success-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(139, 71, 137, 0.95); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+    .message-card { background: white; width: 100%; max-width: 550px; padding: 40px 25px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+    .toast { position: fixed; bottom: 20px; right: 20px; background: #8B4789; color: white; padding: 12px 20px; border-radius: 10px; z-index: 10000; animation: slideIn 0.3s ease-out; }
+    @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+    /* MODALS & GAMES */
+    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 2000; display: none; flex-direction: column; padding: 20px; }
+    .modal.active { display: flex; }
+    #patternCanvas { background: #fff; touch-action: none; margin: 20px auto; display: block; border: 1px solid #fce4ec; border-radius: 10px; }
+    .heart-fill { position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; background: linear-gradient(to top, #d81b60, #ffb7c5); transition: height 0.3s ease; clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'); }
+    .btn-primary { background: #d81b60; color: white; border: none; padding: 12px 30px; border-radius: 25px; width: 100%; font-weight: 600; margin-top: 20px; cursor: pointer; }
+    .btn-outline { background: transparent; border: 2px solid #d81b60; color: #d81b60; padding: 12px 30px; border-radius: 25px; width: 100%; font-weight: 600; margin-top: 10px; cursor: pointer; }
+
+    @media (max-width: 600px) { .countdown-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <span class="hero-heart heart-1">❤</span>
+    <span class="hero-heart heart-2">❤</span>
+    <span class="hero-heart heart-3">❤</span>
+    <span class="hero-heart heart-4">❤</span>
+    <span class="hero-heart heart-5">❤</span>
+    <h1>To My Ride or Die</h1>
+    <p>A Valentine's Day Appreciation</p>
+  </section>
+
+  <!-- COUNTDOWNS -->
+  <section class="countdowns-container">
+    <h2 class="section-title">Time Together</h2>
+    <div class="countdown-grid">
+      <!-- Logic: 685 days since March 31, 2024 -->
+      <div class="countdown-card" data-date="2024-03-31T00:00:00" data-type="up">
+        <span class="card-label">How long we've been together</span>
+        <div class="timer-display">
+          <div class="timer-box"><span class="timer-num">0</span><span class="timer-unit">Days</span></div>
+          <div class="timer-box"><span class="timer-num">0</span><span class="timer-unit">Hrs</span></div>
+          <div class="timer-box"><span class="timer-num">0</span><span class="timer-unit">Min</span></div>
+          <div class="timer-box"><span class="timer-num">0</span><span class="timer-unit">Sec</span></div>
+        </div>
+      </div>
+      <!-- Logic: 99 days until May 24, 2026 -->
+      <div class="countdown-card" data-date="2026-05-24T00:00:00" data-type="down">
+        <span class="card-label">Until your birthday</span>
+        <div class="timer-display">
+          <div class="timer-box"><span class="timer-num">0</span><span class="timer-unit">Days</span></div>
+          <div class="timer-box"><span class="timer-num">0</span><span class="timer-unit">Hrs</span></div>
+          <div class="timer-box"><span class="timer-num">0</span><span class="timer-unit">Min</span></div>
+          <div class="timer-box"><span class="timer-num">0</span><span class="timer-unit">Sec</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHALLENGES -->
+  <section class="challenge-selection">
+    <h2 class="section-title" style="font-size: 28px;">Unlock Your Message</h2>
+    <div id="selectionList">
+      <div class="challenge-card" onclick="startChallenge(1)">
+        <div class="card-info"><span class="card-title">Shake or Click to Unlock</span><span class="difficulty">Easy</span></div>
+        <div class="status-badge" id="badge-1">✅</div>
+      </div>
+      <div class="challenge-card" onclick="startChallenge(2)">
+        <div class="card-info"><span class="card-title">Solve for Love</span><span class="difficulty">Medium</span></div>
+        <div class="status-badge" id="badge-2">✅</div>
+      </div>
+      <div class="challenge-card" onclick="startChallenge(3)">
+        <div class="card-info"><span class="card-title">Draw the Pattern</span><span class="difficulty">Medium</span></div>
+        <div class="status-badge" id="badge-3">✅</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUCCESS OVERLAY (FULL MESSAGE) -->
+  <div id="successOverlay" class="success-overlay">
+    <div class="message-card">
+      <h2 style="font-family:'Dancing Script'; color:#d81b60; text-align:center; font-size: 32px; margin-bottom: 20px;">You Did It! 💕</h2>
+      <div style="font-size: 1.05rem; color:#4a4a4a; line-height: 1.9;">
+        <p style="margin-bottom: 1.5rem;">They say some people come into your life for a reason, and I'm convinced you came into mine to remind me what real friendship looks like. Through every storm we've weathered and every victory we've celebrated, you've been right there—steady, loyal, and true.</p>
+        <p style="margin-bottom: 1.5rem;">Your smile has this incredible way of turning entire days around. It's like you carry sunshine with you, and everyone who crosses your path feels it. And the way you talk to people? It's honestly a superpower. You have this gift of making everyone feel heard, valued, and understood. It's rare, and it's beautiful.</p>
+        <p style="margin-bottom: 1.5rem;">I don't say it enough, but I see you. I see the strength it takes to show up the way you do. I see the heart you pour into everything and everyone around you. And I'm endlessly grateful that I get to call you my friend.</p>
+        <p style="margin-bottom: 1.5rem;">Thank you for being my ride or die. For the late-night talks, the shared laughs, the moments when words weren't even needed. Thank you for being exactly who you are.</p>
+        <p style="margin-bottom: 1.5rem;">Here's to us, to our friendship, and to all the memories still to come.</p>
+      </div>
+      <div style="background:#fff9e6; border-left:4px solid #d4af37; padding:20px; border-radius:10px; margin-top:30px; font-style:italic; line-height:1.8; color:#666;">
+        I owe you a genuine apology. I can't believe I forgot your birthday. There's no excuse for that, and I'm truly sorry. You deserve to be celebrated, not just on your birthday, but every day. I'm making it up to you, I promise. Consider this just the beginning. 🎂💕
+      </div>
+      <p style="text-align: center; font-family: 'Dancing Script'; font-size: 24px; color: #8a1c4a; margin-top: 30px;">With all my appreciation</p>
+      <p style="text-align: center; font-size: 14px; color: #999; margin-top: 5px;">February 14, 2026</p>
+      <button class="btn-primary" onclick="closeSuccess()">Read Again</button>
+      <button class="btn-outline" onclick="closeSuccess(); closeModal();">Try Another Challenge</button>
+    </div>
+  </div>
+
+  <div id="challengeModal" class="modal">
+    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+      <button onclick="closeModal()" style="background:none; border:none; font-size: 24px; color:#d81b60; cursor:pointer;">←</button>
+      <span id="modalTitle" style="font-weight:600; color:#8a1c4a; margin-left: 15px;">Challenge</span>
+    </div>
+    <div id="challengeContent"></div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script>
+    let totalClicks = parseInt(localStorage.getItem('totalClicks') || '0');
+    let heartsExploded = parseInt(localStorage.getItem('heartsExploded') || '0');
+    let progress = JSON.parse(localStorage.getItem('appProgress') || '{}');
+    let konamiActive = false;
+
+    function showToast(msg) {
+      const c = document.getElementById('toast-container');
+      const t = document.createElement('div');
+      t.className = 'toast'; t.innerText = msg;
+      c.appendChild(t); setTimeout(() => t.remove(), 3000);
+    }
+
+    // --- COUNTDOWN LOGIC (TICKS EVERY SECOND) ---
+    function updateTimers() {
+      const themeDate = new Date("2026-02-14T00:00:00");
+      document.querySelectorAll('.countdown-card').forEach(card => {
+        const target = new Date(card.dataset.date);
+        const now = new Date();
+        
+        // Calculate diff relative to Theme Date for specific display reqs, or live vs now
+        // To keep the numbers 685/99 visible on load, we calculate diff from the theme date.
+        let diff = card.dataset.type === 'up' ? themeDate - target : target - themeDate;
+        
+        // Add time elapsed since page loaded to make it "live"
+        const sessionTime = performance.now();
+        diff += (card.dataset.type === 'up' ? sessionTime : -sessionTime);
+
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const nums = card.querySelectorAll('.timer-num');
+        nums[0].innerText = d; nums[1].innerText = h; nums[2].innerText = m; nums[3].innerText = s;
+      });
+    }
+    setInterval(updateTimers, 1000);
+    updateTimers();
+
+    // --- RISING HEARTS ---
+    function spawnHeart() {
+      const h = document.createElement('div');
+      h.innerHTML = konamiActive ? '✨' : '♥';
+      h.className = 'floating-heart-anim';
+      h.style.left = Math.random() * 100 + 'vw';
+      const dur = Math.random() * 8 + 7;
+      h.style.setProperty('--d', dur + 's');
+      h.style.fontSize = (Math.random() * 20 + 20) + 'px';
+      h.onclick = (e) => {
+        explode(e.clientX, e.clientY);
+        heartsExploded++; localStorage.setItem('heartsExploded', heartsExploded);
+        if(heartsExploded === 10) showToast("Achievement: Heart Breaker! 💔");
+        h.remove();
+      };
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), dur * 1000);
+    }
+    setInterval(spawnHeart, 2500);
+
+    function explode(x, y) {
+      for(let i=0; i<8; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle'; p.style.left = x+'px'; p.style.top = y+'px';
+        p.style.background = `hsl(${Math.random()*360},70%,60%)`;
+        p.style.setProperty('--x', (Math.random()-0.5)*120+'px');
+        p.style.setProperty('--y', (Math.random()-0.5)*120+'px');
+        document.body.appendChild(p); setTimeout(() => p.remove(), 600);
+      }
+    }
+
+    // --- HIDDEN FEATURES ---
+    const kCode = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+    let kIdx = 0;
+    window.addEventListener('keydown', (e) => {
+      if(e.key === kCode[kIdx]) {
+        kIdx++;
+        if(kIdx === kCode.length) {
+          konamiActive = !konamiActive;
+          document.body.classList.toggle('rainbow-mode');
+          showToast(konamiActive ? "Rainbow Mode! 🌈" : "Normal Mode");
+          kIdx = 0;
+        }
+      } else kIdx = 0;
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if(e.shiftKey) {
+        const t = document.createElement('div');
+        t.innerHTML = '💖'; t.className = 'trail-heart';
+        t.style.left = e.clientX+'px'; t.style.top = e.clientY+'px';
+        document.body.appendChild(t); setTimeout(() => t.remove(), 800);
+      }
+    });
+
+    // --- CHALLENGE SYSTEM ---
+    function startChallenge(id) {
+      currentChallenge = id;
+      document.getElementById('challengeModal').classList.add('active');
+      const container = document.getElementById('challengeContent');
+      const title = document.getElementById('modalTitle');
+      if(id === 1) {
+        title.innerText = "Shake or Click";
+        container.innerHTML = `<div style="text-align:center;"><div style="width:150px;height:150px;margin:20px auto;position:relative;cursor:pointer;" id="shk"><div class="heart-fill" id="hFill"></div><svg style="width:100%;height:100%;fill:none;stroke:#d81b60;stroke-width:5;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div><p id="shkTxt">0%</p></div>`;
+        let p = 0;
+        document.getElementById('shk').onclick = () => {
+          p += 10; document.getElementById('hFill').style.height = Math.min(p,100)+'%';
+          document.getElementById('shkTxt').innerText = p+'%';
+          if(p>=100) winChallenge();
+        };
+      } else if(id === 2) {
+        title.innerText = "Solve for Love";
+        container.innerHTML = `<div class="quiz-card"><p>Superpower?</p><button class="option-btn" onclick="winChallenge()">All of the above ✨</button></div>`;
+      } else if(id === 3) {
+        title.innerText = "Draw Pattern";
+        container.innerHTML = `<canvas id="patternCanvas" width="300" height="300"></canvas>`;
+        setupPattern();
+      }
+    }
+
+    function setupPattern() {
+      const canvas = document.getElementById('patternCanvas');
+      const ctx = canvas.getContext('2d');
+      const path = []; const dots = [];
+      for(let i=0; i<3; i++) for(let j=0; j<3; j++) dots.push({x: 75+j*75, y: 75+i*75});
+      canvas.addEventListener('pointerdown', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+        dots.forEach((d, i) => {
+          if(Math.hypot(d.x-x, d.y-y) < 30 && !path.includes(i)) {
+            path.push(i); if(path.length >= 5) winChallenge();
+            ctx.clearRect(0,0,300,300);
+            dots.forEach((dot, idx) => {
+              ctx.beginPath(); ctx.arc(dot.x, dot.y, 10, 0, Math.PI*2);
+              ctx.fillStyle = path.includes(idx) ? '#d81b60' : '#fce4ec'; ctx.fill();
+            });
+          }
+        });
+      });
+    }
+
+    function closeModal() { document.getElementById('challengeModal').classList.remove('active'); updateBadges(); }
+    function closeSuccess() { document.getElementById('successOverlay').style.display = 'none'; }
+    function winChallenge() {
+      progress[currentChallenge] = true; localStorage.setItem('appProgress', JSON.stringify(progress));
+      document.getElementById('successOverlay').style.display = 'flex';
+    }
+    function updateBadges() { for(let i=1; i<=3; i++) if(progress[i]) document.getElementById(`badge-${i}`).style.display = 'flex'; }
+    updateBadges();
+  </script>
+</body>
+</html>
